@@ -8,7 +8,7 @@ require('dotenv').config();
 
 // const Thing = require('./models/thing');
 const stuffRoutes = require('./routes/stuff');
-
+const userRoutes = require('./routes/user.js');
 
 // connection to MONGODB
 const MONGO_DB_PASSWORD = process.env.MONGO_DB_PASSWORD
@@ -37,7 +37,7 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 app.use('/api/stuff', stuffRoutes);
-// app.use('/api/stuff', stuffRoutes);
+app.use('/api/auth', userRoutes);
 
 
 
