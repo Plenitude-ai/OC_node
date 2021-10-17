@@ -6,7 +6,8 @@ const app = express();
 require('dotenv').config();
 
 
-const Thing = require('./models/Thing');
+// const Thing = require('./models/thing');
+const stuffRoutes = require('./routes/stuff');
 
 
 // connection to MONGODB
@@ -35,55 +36,7 @@ app.use((req, res, next) => {
 //   PARSING REQUEST
 app.use(bodyParser.json());
 
-// POST REQUESTS
-app.post('/api/stuff', (req, res, next) => {
-    delete req.body._id;
-    const thing = new Thing({ ...req.body });
-    thing.save()
-      .then( () => res.status(201).json({ message: 'Objet enregistré !'}))
-      .catch(error => res.status(400).json({ error }));
-  });
-
-
-// GET requests
-app.get('/api/stuff/:id', (req, res, next) => {
-    Thing.findOne({ _id: req.params.id })
-      .then(thing => res.status(200).json(thing))
-      .catch(error => res.status(404).json({ error }));
-  });
-
-// GET ALL REQUESTS
-app.get('/api/stuff', (req, res, next) => {
-    Thing.find()
-      .then(things => res.status(200).json(things))
-      .catch(error => res.status(400).json({ error }));
-  });
-
-
-app.put("/api/stuff/:id", (req, res, next) => {
-    Thing.updateOne({ _id : req.params.id }, {...req.body, _id:req.params.id })
-        .then( () => res.status(201).json({message : "Updated !"}))
-        .catch(error => res.status(400).json({ error }))
-})
-
-app.delete("/api/stuff/:id", (req, res, next) =>{
-    Thing.deleteOne({ _id : req.params.id})
-        .then( () => res.status(201).json({message : "object deleted !"}))
-        .catch(error => res.status(400).json({ error }) )
-})
-
-
-
-
-
-
-
-// app.get("/api/stuff/:id", (req, res, next) => {
-//     Thing.findOne({ _id : req.params.id })
-//         .then(thing => res.status_code(200).json(thing))
-//         .catch(error => res.status_code(404).json({ error }))
-// })
-
+app.use('/api/stuff', stuffRoutes);
 
 
 
