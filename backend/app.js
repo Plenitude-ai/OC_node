@@ -3,12 +3,15 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const app = express();
 
+require('dotenv').config();
+
 
 const Thing = require('./models/Thing');
 
 
 // connection to MONGODB
-mongoose.connect("mongodb+srv://new_user:2TU7DrbhTTATnKpu@plenitudeai-cluster.ba3nq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+const MONGO_DB_PASSWORD = process.env.MONGO_DB_PASSWORD
+mongoose.connect("mongodb+srv://new_user:"+MONGO_DB_PASSWORD+"@plenitudeai-cluster.ba3nq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
