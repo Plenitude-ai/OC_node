@@ -1,7 +1,10 @@
 const bcrypt = require("bcrypt");
-const User = require("../models/user.js")
+const { JsonWebTokenError } = require("jsonwebtoken");
+const User = require("../models/user.js");
+const jwt = require('jsonwebtoken');
 
-
+require('dotenv').config();
+const JWT_SECRET_KEY=process.env.JWT_SECRET_KEY
 
 exports.signup = (req, res, next) => {
 
@@ -48,7 +51,10 @@ exports.login = (req, res, next) => {
                                                 }
                                             console.log("VALIDE !!!")
                                             res.status(200).json({  userId:user._id,
-                                                                    token: "TOKEN"})
+                                                                    token: jwt.sign({userId: user._id},
+                                                                                    JWT_SECRET_KEY,
+                                                                                    { expiresIn: '24h' })
+                                                                })
                                             }
                             )
                             .catch( error => {console.log(error);
