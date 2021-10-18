@@ -1,14 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const app = express();
-
+const path = require('path');
 require('dotenv').config();
+
+const app = express();
 
 
 // const Thing = require('./models/thing');
 const stuffRoutes = require('./routes/stuff');
 const userRoutes = require('./routes/user.js');
+
 
 // connection to MONGODB
 const MONGO_DB_PASSWORD = process.env.MONGO_DB_PASSWORD
@@ -19,12 +21,6 @@ mongoose.connect("mongodb+srv://new_user:"+MONGO_DB_PASSWORD+"@plenitudeai-clust
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 
-
-
-
-// MIDDLEWARE
-
-
 //  CORS
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -33,11 +29,13 @@ app.use((req, res, next) => {
     next();
   });
 
+
 //   PARSING REQUEST
 app.use(bodyParser.json());
 
 app.use('/api/stuff', stuffRoutes);
 app.use('/api/auth', userRoutes);
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 
 
