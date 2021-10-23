@@ -13,8 +13,9 @@ const userRoutes = require('./routes/user.js');
 
 
 // connection to MONGODB
+const MONGO_DB_USER = process.env.MONGO_DB_USER
 const MONGO_DB_PASSWORD = process.env.MONGO_DB_PASSWORD
-mongoose.connect("mongodb+srv://new_user:"+MONGO_DB_PASSWORD+"@plenitudeai-cluster.ba3nq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+mongoose.connect("mongodb+srv://"+MONGO_DB_USER+":"+MONGO_DB_PASSWORD+"@plenitudeai-cluster.ba3nq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
